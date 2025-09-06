@@ -171,7 +171,7 @@ function provisioning_has_valid_civitai_token() {
 # Download from $1 URL into a base dir $2, preserving HF subfolders when possible.
 # Optional $3 controls wget dot progress granularity (default 4M).
 provisioning_download() {
-  local url="$1" base_dir="$2" dotbytes="${3:-4M}"
+  local url="$1" base_dir="$2" dotbytes="${3:-100M}"
   local auth_token="" host="" subpath="" dest_dir="" filename=""
 
   # Auth token selection (HF/Civitai)
