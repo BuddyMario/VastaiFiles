@@ -18,7 +18,14 @@ PIP_PACKAGES=(
 NODES=(
     #"https://github.com/ltdrdata/ComfyUI-Manager"
     #"https://github.com/cubiq/ComfyUI_essentials"
-)
+	"https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite"
+ 	"https://github.com/kijai/ComfyUI-KJNodes"
+  	"https://github.com/sipherxyz/comfyui-art-venture"
+    "https://github.com/rgthree/rgthree-comfy"
+	"https://github.com/city96/ComfyUI-GGUF"
+ 	"https://github.com/BuddyMario/ComfyS3"
+    #"https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler"
+ )
 
 WORKFLOWS=(
 
@@ -31,10 +38,6 @@ UNET_MODELS=(
 )
 
 LORA_MODELS=(
-	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/AmorousWanKisses.safetensors?download=true",
-	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/i2v_14B_480/orgasm_v4_e48.safetensors?download=true",
-	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/i2v_14B_480/wan-thiccum-v3.safetensors?download=true",
-	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/BigSplashV01.safetensors?download=true"
 )
 
 VAE_MODELS=(
@@ -51,8 +54,9 @@ CONTROLNET_MODELS=(
 function provisioning_start() {
     provisioning_print_header
     provisioning_get_apt_packages
-    provisioning_get_nodes
     provisioning_get_pip_packages
+	provisioning_custom_steps
+    provisioning_get_nodes
     provisioning_get_files \
         "${COMFYUI_DIR}/models/checkpoints" \
         "${CHECKPOINT_MODELS[@]}"
@@ -164,19 +168,68 @@ function provisioning_has_valid_civitai_token() {
     fi
 }
 
-# Download from $1 URL to $2 file path
-function provisioning_download() {
-    if [[ -n $HF_TOKEN && $1 =~ ^https://([a-zA-Z0-9_-]+\.)?huggingface\.co(/|$|\?) ]]; then
-        auth_token="$HF_TOKEN"
-    elif 
-        [[ -n $CIVITAI_TOKEN && $1 =~ ^https://([a-zA-Z0-9_-]+\.)?civitai\.com(/|$|\?) ]]; then
-        auth_token="$CIVITAI_TOKEN"
-    fi
-    if [[ -n $auth_token ]];then
-        wget --header="Authorization: Bearer $auth_token" -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
-    else
-        wget -qnc --content-disposition --show-progress -e dotbytes="${3:-4M}" -P "$2" "$1"
-    fi
+# Download from $1 URL into a base dir $2, preserving HF subfolders when possible.
+# Optional $3 controls wget dot progress granularity (default 4M).
+provisioning_download() {
+  local url="$1" base_dir="$2" dotbytes="${3:-4M}"
+  local auth_token="" host="" subpath="" dest_dir="" filename=""
+
+  # Auth token selection (HF/Civitai)
+  if [[ -n ${HF_TOKEN:-} && $url =~ ^https://([a-zA-Z0-9_-]+\.)?huggingface\.co(/|$|\?) ]]; then
+    auth_token="$HF_TOKEN"
+  elif [[ -n ${CIVITAI_TOKEN:-} && $url =~ ^https://([a-zA-Z0-9_-]+\.)?civitai\.com(/|$|\?) ]]; then
+    auth_token="$CIVITAI_TOKEN"
+  fi
+
+  # 1) Compute relative subpath for Hugging Face "resolve/main" URLs:
+  #    e.g., https://huggingface.co/.../resolve/main/Wan2.1/i2v_14B_480/wan-thiccum-v3.safetensors
+  #          -> subpath="Wan2.1/i2v_14B_480"
+  if [[ $url == *"/resolve/main/"* ]]; then
+    subpath="${url#*resolve/main/}"     # "Wan2.1/i2v_14B_480/wan-thiccum-v3.safetensors?download=true"
+    subpath="${subpath%%\?*}"           # strip query
+    subpath="${subpath%/*}"             # drop filename -> "Wan2.1/i2v_14B_480"
+  else
+    subpath=""                           # unknown host layout -> flat
+  fi
+
+  # 2) Destination directory
+  if [[ -n $subpath ]]; then
+    dest_dir="${base_dir%/}/${subpath}"
+  else
+    dest_dir="${base_dir%/}"
+  fi
+  mkdir -p "$dest_dir"
+
+  # 3) Derive filename (avoid surprises if --content-disposition renames things)
+  filename="${url##*/}"
+  filename="${filename%%\?*}"
+
+  # 4) Download
+  if [[ -n $auth_token ]]; then
+    # Use -O to enforce the expected filename, regardless of Content-Disposition.
+    wget --header="Authorization: Bearer $auth_token" \
+         -qnc --show-progress --content-disposition \
+         -e "dotbytes=${dotbytes}" -O "${dest_dir}/${filename}" "$url"
+  else
+    wget -qnc --show-progress --content-disposition \
+         -e "dotbytes=${dotbytes}" -O "${dest_dir}/${filename}" "$url"
+  fi
+}
+
+provisioning_custom_steps()
+{
+	# Download the dataset
+	hf download "BloodyMario/CloudLoras" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
+	
+	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
+	
+	pip install -r /workspace/ConfigFiles/accelerated_270_312.txt
+	
+	wget https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -P /workspace/ComfyUI/models/vae
+	wget https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -P /workspace/ComfyUI/models/text_encoders
+	
+	wget https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/resolve/main/wan2.2_i2v_high_noise_14B_Q8_0.gguf -P /workspace/ComfyUI/models/diffusion_models
+	wget https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/resolve/main/wan2.2_i2v_low_noise_14B_Q8_0.gguf -P /workspace/ComfyUI/models/diffusion_models
 }
 
 # Allow user to disable provisioning if they started with a script they didn't want
