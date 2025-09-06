@@ -25,14 +25,16 @@ WORKFLOWS=(
 )
 
 CHECKPOINT_MODELS=(
-	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/AmorousWanKisses.safetensors?download=true",
-	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/i2v_14B_480/orgasm_v4_e48.safetensors?download=true"
 )
 
 UNET_MODELS=(
 )
 
 LORA_MODELS=(
+	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/AmorousWanKisses.safetensors?download=true",
+	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/i2v_14B_480/orgasm_v4_e48.safetensors?download=true",
+	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/i2v_14B_480/wan-thiccum-v3.safetensors?download=true",
+	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/BigSplashV01.safetensors?download=true"
 )
 
 VAE_MODELS=(
