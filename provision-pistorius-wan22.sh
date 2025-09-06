@@ -25,7 +25,8 @@ WORKFLOWS=(
 )
 
 CHECKPOINT_MODELS=(
-    "https://civitai.com/api/download/models/798204?type=Model&format=SafeTensor&size=full&fp=fp16"
+	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/AmorousWanKisses.safetensors?download=true",
+	 "https://huggingface.co/datasets/BloodyMario/CloudLoras/resolve/main/Wan2.1/i2v_14B_480/orgasm_v4_e48.safetensors?download=true"
 )
 
 UNET_MODELS=(
