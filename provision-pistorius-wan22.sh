@@ -242,11 +242,11 @@ provisioning_custom_steps()
 	
 	pip install -r /workspace/ConfigFiles/accelerated_270_312.txt
 	
-	wget https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -P /workspace/ComfyUI/models/vae
-	wget https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -P /workspace/ComfyUI/models/text_encoders
+	wget https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -P /workspace/ComfyUI/models/vae -qnc --show-progress --progress=bar:force
+	wget https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -P /workspace/ComfyUI/models/text_encoders -qnc --show-progress --progress=bar:force
 	
-	wget https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/resolve/main/wan2.2_i2v_high_noise_14B_Q8_0.gguf -P /workspace/ComfyUI/models/diffusion_models
-	wget https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/resolve/main/wan2.2_i2v_low_noise_14B_Q8_0.gguf -P /workspace/ComfyUI/models/diffusion_models
+	wget https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/resolve/main/wan2.2_i2v_high_noise_14B_Q8_0.gguf -P /workspace/ComfyUI/models/diffusion_models -qnc --show-progress --progress=bar:force
+	wget https://huggingface.co/bullerwins/Wan2.2-I2V-A14B-GGUF/resolve/main/wan2.2_i2v_low_noise_14B_Q8_0.gguf -P /workspace/ComfyUI/models/diffusion_models -qnc --show-progress --progress=bar:force
 }
 
 # Allow user to disable provisioning if they started with a script they didn't want
