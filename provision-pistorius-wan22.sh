@@ -53,6 +53,7 @@ CONTROLNET_MODELS=(
 
 function provisioning_start() {
     provisioning_print_header
+	provisioning_install_cylindria
     provisioning_get_apt_packages
     provisioning_get_pip_packages
 	provisioning_custom_steps
@@ -76,6 +77,19 @@ function provisioning_start() {
         "${COMFYUI_DIR}/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
     provisioning_print_end
+}
+
+function provisioning_install_cylindria()
+{
+	cd /workspace/
+    git clone https://BuddyMario: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@github.com/BuddyMario/Cylindria.git
+	cd /workspace/Cylindria
+    copy ./log_conf/cylindria /etc/logrotate.d/
+	sudo chown root:root /etc/logrotate.d/cylindria
+    sudo chmod 0644 /etc/logrotate.d/cylindria
+ 	pip install -r requirements.txt
+    nohup python -m cylindria --port 8100 > cylindria.log 2>&1 < /dev/null & disown
+
 }
 
 function provisioning_get_apt_packages() {
@@ -130,10 +144,12 @@ function provisioning_get_files() {
 
 function provisioning_print_header() {
     printf "\n##############################################\n#                                            #\n#          Provisioning container            #\n#                                            #\n#         This will take some time           #\n#                                            #\n# Your container will be ready on completion #\n#                                            #\n##############################################\n\n"
+	touch /.initializing
 }
 
 function provisioning_print_end() {
     printf "\nProvisioning complete:  Application will start now\n\n"
+	rm /.initializing
 }
 
 function provisioning_has_valid_hf_token() {
