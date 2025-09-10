@@ -88,6 +88,7 @@ function provisioning_install_cylindria()
 	sudo chown root:root /etc/logrotate.d/cylindria
     sudo chmod 0644 /etc/logrotate.d/cylindria
  	pip install -r requirements.txt
+    export COMFYUI_BASE_URL="http://127.0.0.1:18188"
     nohup python -m cylindria --port 8100 > cylindria.log 2>&1 < /dev/null & disown
 
 }
