@@ -88,8 +88,11 @@ function provisioning_install_cylindria()
 	sudo chown root:root /etc/logrotate.d/cylindria
     sudo chmod 0644 /etc/logrotate.d/cylindria
  	pip install -r requirements.txt
-    export COMFYUI_BASE_URL="http://127.0.0.1:18188"
-    nohup python -m cylindria --port 8100 > cylindria.log 2>&1 < /dev/null & disown
+    copy /workspace/Cylindria/config_files/cylindria.sh opt/supervisor-scripts/
+    sudo chmod +x /opt/supervisor-scripts/cylindria.sh
+    copy /workspace/Cylindria/config_files/cylindria.conf /etc/supervisor/conf.d/
+#    export COMFYUI_BASE_URL="http://127.0.0.1:18188"
+#    nohup python -m cylindria --port 8100 > cylindria.log 2>&1 < /dev/null & disown
 
 }
 
@@ -235,6 +238,16 @@ provisioning_download() {
 
 provisioning_custom_steps()
 {
+   	cd /workspace/
+    git clone https://BuddyMario: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@github.com/BuddyMario/VastaiFiles.git
+
+    copy /workspace/VastaiFiles/comfyui.sh opt/supervisor-scripts/
+    sudo chmod +x opt/supervisor-scripts/comfyui.sh
+
+    copy /workspace/VastaiFiles/comfyui2.conf /etc/supervisor/conf.d/
+    copy /workspace/VastaiFiles/comfyui3.conf /etc/supervisor/conf.d/
+    copy /workspace/VastaiFiles/comfyui4.conf /etc/supervisor/conf.d/
+
 	# Download the dataset
 	hf download "BloodyMario/CloudLoras" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
 	
