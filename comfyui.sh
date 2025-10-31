@@ -9,9 +9,13 @@ done
 # requested device id (default 0 if none passed)
 DEVICE_ID="${1:-0}"
 
+echo "Device Id: ${DEVICE_ID}"
+
 # derive port from device id
 BASE_PORT=18188
 PORT=$((BASE_PORT + DEVICE_ID))
+
+echo "Port: ${PORT}"
 
 # count available CUDA devices
 NUM_DEVICES=$(nvidia-smi -L | wc -l)
@@ -36,8 +40,10 @@ done
 export GIT_CONFIG_GLOBAL=/tmp/temporary-git-config
 git config --file $GIT_CONFIG_GLOBAL --add safe.directory '*'
 
+echo "Launching ComfyUI --disable-auto-launch --port $PORT --enable-cors-header --cuda-device $DEVICE_ID"
+
 # Launch ComfyUI
 cd ${WORKSPACE}/ComfyUI
 LD_PRELOAD=libtcmalloc_minimal.so.4 \
         python main.py \
-        ${COMFYUI_ARGS:---disable-auto-launch --port "${PORT}" --enable-cors-header --cuda-device "${DEVICE_ID}"} 2>&1 | tee -a "/var/log/portal/${PROC_NAME}.log"
+        --disable-auto-launch --port "${PORT}" --enable-cors-header --cuda-device "${DEVICE_ID}" 2>&1 | tee -a "/var/log/portal/${PROC_NAME}.log"
