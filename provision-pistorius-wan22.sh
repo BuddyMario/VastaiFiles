@@ -76,6 +76,7 @@ function provisioning_start() {
     provisioning_get_files \
         "${COMFYUI_DIR}/models/esrgan" \
         "${ESRGAN_MODELS[@]}"
+    provisioning_restart_supervisor
     provisioning_print_end
 }
 
@@ -92,7 +93,7 @@ function provisioning_install_cylindria()
     sudo chmod +x /opt/supervisor-scripts/cylindria.sh
     cp /workspace/Cylindria/config_files/cylindria.conf /etc/supervisor/conf.d/
     export COMFYUI_BASE_URL="http://127.0.0.1:18188"
-    nohup python -m cylindria --port 8100 > cylindria.log 2>&1 < /dev/null & disown
+#    nohup python -m cylindria --port 8100 > cylindria.log 2>&1 < /dev/null & disown
 
 }
 
@@ -154,6 +155,15 @@ function provisioning_print_header() {
 function provisioning_print_end() {
     printf "\nProvisioning complete:  Application will start now\n\n"
 	rm /.initializing
+}
+
+function provisioning_restart_supervisor
+{
+    echo "Restarting supervisor to apply changes..."
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl restart
+    sleep 30
 }
 
 function provisioning_has_valid_hf_token() {
