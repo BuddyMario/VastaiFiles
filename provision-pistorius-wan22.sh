@@ -19,7 +19,7 @@ NODES=(
     #"https://github.com/ltdrdata/ComfyUI-Manager"
     #"https://github.com/cubiq/ComfyUI_essentials"
 	"https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite"
- 	"https://github.com/kijai/ComfyUI-KJNodes"
+ 	"https://github.com/kijai/ComfyUI-KJNodes 6c996e1877db08c7de020ee14421dd28d7574ec2"
   	"https://github.com/sipherxyz/comfyui-art-venture"
     "https://github.com/rgthree/rgthree-comfy"
 	"https://github.com/city96/ComfyUI-GGUF"
@@ -110,24 +110,44 @@ function provisioning_get_pip_packages() {
 }
 
 function provisioning_get_nodes() {
-    for repo in "${NODES[@]}"; do
-        dir="${repo##*/}"
+    for entry in "${NODES[@]}"; do
+        # Each entry may be "URL" or "URL <commit>"
+        repo="$entry"
+        url="${repo%% *}"
+        # If there is no space, commit will equal repo; normalize to empty
+        rest="${repo#* }"
+        if [[ "$rest" == "$repo" ]]; then
+            commit=""
+        else
+            commit="$rest"
+        fi
+
+        dir="${url##*/}"
         path="${COMFYUI_DIR}/custom_nodes/${dir}"
         requirements="${path}/requirements.txt"
+
         if [[ -d $path ]]; then
-            if [[ ${AUTO_UPDATE,,} != "false" ]]; then
-                printf "Updating node: %s...\n" "${repo}"
-                ( cd "$path" && git pull )
-                if [[ -e $requirements ]]; then
-                   pip install --no-cache-dir -r "$requirements"
-                fi
+            # Ensure origin is correct in case the URL changed
+            ( cd "$path" && git remote set-url origin "$url" )
+
+            if [[ -n "$commit" ]]; then
+                printf "Pinning node %s to commit %s...\n" "${url}" "${commit}"
+                ( cd "$path" && git fetch --all --tags && git reset --hard "$commit" )
+            elif [[ ${AUTO_UPDATE,,} != "false" ]]; then
+                printf "Updating node: %s...\n" "${url}"
+                ( cd "$path" && git pull --ff-only )
             fi
         else
-            printf "Downloading node: %s...\n" "${repo}"
-            git clone "${repo}" "${path}" --recursive
-            if [[ -e $requirements ]]; then
-                pip install --no-cache-dir -r "${requirements}"
+            printf "Cloning node: %s...\n" "${url}"
+            git clone "${url}" "${path}" --recursive
+            if [[ -n "$commit" ]]; then
+                printf "Checking out commit %s for %s...\n" "${commit}" "${url}"
+                ( cd "$path" && git fetch --all --tags && git reset --hard "$commit" )
             fi
+        fi
+
+        if [[ -e $requirements ]]; then
+            pip install --no-cache-dir -r "$requirements"
         fi
     done
 }
