@@ -36,6 +36,13 @@ while [ -f "/.provisioning" ]; do
     sleep 10
 done
 
+export S3_REGION=auto
+export S3_ACCESS_KEY=90e80e3a8f4dbdbf262fd5cba598ea28
+export S3_BUCKET_NAME=chatpic-videos    
+export S3_ENDPOINT_URL=https://de43a759ac9d300a66733e5cfedcc481.r2.cloudflarestorage.com
+export S3_INPUT_DIR=Images
+export S3_OUTPUT_DIR=Videos
+
 # Avoid git errors because we run as root but files are owned by 'user'
 export GIT_CONFIG_GLOBAL=/tmp/temporary-git-config
 git config --file $GIT_CONFIG_GLOBAL --add safe.directory '*'

@@ -268,7 +268,9 @@ provisioning_download() {
 
 provisioning_custom_steps()
 {
-   	cd /workspace/
+   	touch /workspace/.provisioning_script_wan22_v0.1
+
+    cd /workspace/
     git clone https://BuddyMario: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@github.com/BuddyMario/VastaiFiles.git
 
     cp /workspace/VastaiFiles/comfyui.sh /opt/supervisor-scripts/
