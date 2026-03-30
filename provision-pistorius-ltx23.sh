@@ -285,7 +285,7 @@ provisioning_custom_steps()
 	
 	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
 	
-	pip install -r /workspace/ConfigFiles/accelerated_270_312.txt
+	#pip install -r /workspace/ConfigFiles/accelerated_270_312.txt
 
     pip install comfy_aimdo
 }
