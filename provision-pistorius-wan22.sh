@@ -271,7 +271,7 @@ provisioning_custom_steps()
    	touch /workspace/.provisioning_script_wan22_v0.1
 
     cd /workspace/
-    git clone https://BuddyMario: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@github.com/BuddyMario/VastaiFiles.git
+    git clone https://BuddyMario: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@github.com/BuddyMario/VastaiFiles.git
 
     cp /workspace/VastaiFiles/comfyui.sh /opt/supervisor-scripts/
     sudo chmod +x /opt/supervisor-scripts/comfyui.sh
@@ -281,7 +281,7 @@ provisioning_custom_steps()
     cp /workspace/VastaiFiles/comfyui4.conf /etc/supervisor/conf.d/
 
 	# Download the dataset
-	hf download "BloodyMario/wan22-loras-v2" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
+	hf download "BloodyMario/wan22-loras-v3" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
 	
 	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
 	
