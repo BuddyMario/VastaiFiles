@@ -250,11 +250,13 @@ provisioning_custom_steps()
 
 	# Download the dataset
 
-    hf download "BloodyMario/qwen_loras" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
+	hf download "BloodyMario/qwen_edit_package_v1" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
+    
+#    hf download "BloodyMario/qwen_loras" --local-dir "/workspace/ComfyUI/models/loras/qwen" --repo-type dataset --token "$HF_TOKEN"
 
-    hf download BloodyMario/Models diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors --repo-type dataset --local-dir "/workspace/ComfyUI/models" --token "$HF_TOKEN"
-    hf download BloodyMario/Models text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors --repo-type dataset --local-dir "/workspace/ComfyUI/models" --token "$HF_TOKEN"
-    hf download BloodyMario/Models vae/qwen_image_vae.safetensors --repo-type dataset --local-dir "/workspace/ComfyUI/models" --token "$HF_TOKEN"
+#   hf download BloodyMario/Models diffusion_models/qwen_image_edit_2509_fp8_e4m3fn.safetensors --repo-type dataset --local-dir "/workspace/ComfyUI/models" --token "$HF_TOKEN"
+#    hf download BloodyMario/Models text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors --repo-type dataset --local-dir "/workspace/ComfyUI/models" --token "$HF_TOKEN"
+#    hf download BloodyMario/Models vae/qwen_image_vae.safetensors --repo-type dataset --local-dir "/workspace/ComfyUI/models" --token "$HF_TOKEN"
 
 	pip install -r /workspace/ConfigFiles/accelerated_270_312.txt
 	
