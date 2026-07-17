@@ -281,7 +281,12 @@ provisioning_custom_steps()
     cp /workspace/VastaiFiles/comfyui4.conf /etc/supervisor/conf.d/
 
 	# Download the dataset
-	hf download "BloodyMario/wan22-loras-v3" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
+	if [[ -n "${WAN22_LORAS_V3:-}" ]]; then
+		hf download "BloodyMario/wan22-loras-v3" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
+	fi
+    if [[ -n "${WAN22_LORAS_SLUTT:-}" ]]; then
+		hf download "BloodyMario/wan22-loras-chatpic-slutt" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
+	fi
 	
 	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
 	
