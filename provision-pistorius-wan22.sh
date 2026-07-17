@@ -24,6 +24,7 @@ NODES=(
     "https://github.com/rgthree/rgthree-comfy"
 	"https://github.com/city96/ComfyUI-GGUF"
  	"https://github.com/BuddyMario/ComfyS3"
+    "https://github.com/kijai/ComfyUI-GIMM-VFI"
     #"https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler"
  )
 
