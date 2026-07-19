@@ -288,7 +288,10 @@ provisioning_custom_steps()
     if [[ -n "${WAN22_LORAS_SLUTT:-}" ]]; then
 		hf download "BloodyMario/wan22-loras-chatpic-slutt" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
 	fi
-	
+	if [[ -n "${LTX23_PACKAGE_V1:-}" ]]; then
+			hf download "BloodyMario/ltx23-package-v1" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
+	fi
+
 	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
 	
 	pip install -r /workspace/ConfigFiles/accelerated_270_312.txt
