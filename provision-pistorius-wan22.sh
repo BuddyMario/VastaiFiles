@@ -291,6 +291,9 @@ provisioning_custom_steps()
 	if [[ -n "${LTX23_PACKAGE_V1:-}" ]]; then
 			hf download "BloodyMario/ltx23-package-v1" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 	fi
+    if [[ -n "${VACE_FUN:-}" ]]; then
+			hf download "BloodyMario/wan22-vace-fun" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
+	fi
 
 	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
 	
