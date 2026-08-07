@@ -285,7 +285,7 @@ provisioning_custom_steps()
 	hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 
     if [[ -n "${REF_MODEL:-}" ]]; then
-		wget https://huggingface.co/Comfy-Org/MiniMax-H3/blob/main/diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors -P /workspace/ComfyUI/models/diffusion_models -qnc --show-progress --progress=bar:force
+		wget https://huggingface.co/Comfy-Org/MiniMax-H3/resolve/main/diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors -P /workspace/ComfyUI/models/diffusion_models -qnc --show-progress --progress=bar:force
 	fi
 
 #	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
