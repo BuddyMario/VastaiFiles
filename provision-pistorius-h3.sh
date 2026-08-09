@@ -17,7 +17,7 @@ PIP_PACKAGES=(
 
 NODES=(
     #"https://github.com/ltdrdata/ComfyUI-Manager"
-    "https://github.com/cubiq/ComfyUI-Spectrum-MiniMax-H3"
+    "https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3"
 	"https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite"
  	"https://github.com/kijai/ComfyUI-KJNodes"
   	#"https://github.com/sipherxyz/comfyui-art-venture"
@@ -285,8 +285,7 @@ provisioning_custom_steps()
 	hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 
     if [[ -n "${REF_MODEL:-}" ]]; then
-        hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models/diffusion_models --local-dir-use-symlinks False --token "$HF_TOKEN"
-        hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models/diffusion_models --token "$HF_TOKEN"
+        hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models --token "$HF_TOKEN"
 	fi
 
 #	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
