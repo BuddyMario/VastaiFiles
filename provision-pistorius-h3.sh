@@ -277,6 +277,7 @@ provisioning_custom_steps()
     cp /workspace/VastaiFiles/comfyui.sh /opt/supervisor-scripts/
     sudo chmod +x /opt/supervisor-scripts/comfyui.sh
 
+    mkdir -p /root/.config/rclone
     cp /workspace/VastaiFiles/rclone.conf /root/.config/rclone/
 
     cp /workspace/VastaiFiles/comfyui2.conf /etc/supervisor/conf.d/
