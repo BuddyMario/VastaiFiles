@@ -290,7 +290,8 @@ provisioning_custom_steps()
     rclone copy wasabi:minimax-h3-base-v1 /workspace/ComfyUI/models/ --progress --transfers 4 --multi-thread-streams 12 --s3-chunk-size 256M
 
     if [[ -n "${REF_MODEL:-}" ]]; then
-        hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models --token "$HF_TOKEN"
+        #hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models --token "$HF_TOKEN"
+        hf download "BloodyMario/minimax_H3_ref2va_hybrid" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 	fi
 
 #	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
