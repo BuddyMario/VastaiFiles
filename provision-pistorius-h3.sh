@@ -287,7 +287,8 @@ provisioning_custom_steps()
 	# Download the dataset
 	#hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 
-    rclone copy wasabi:minimax-h3-base-v1 /workspace/ComfyUI/models/ --progress --transfers 4 --multi-thread-streams 12 --s3-chunk-size 256M
+    #rclone copy wasabi:minimax-h3-base-v1 /workspace/ComfyUI/models/ --progress --transfers 4 --multi-thread-streams 12 --s3-chunk-size 256M
+    hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 
     if [[ -n "${REF_MODEL:-}" ]]; then
         #hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models --token "$HF_TOKEN"
