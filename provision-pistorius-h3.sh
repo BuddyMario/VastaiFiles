@@ -24,7 +24,8 @@ NODES=(
     "https://github.com/rgthree/rgthree-comfy"
 	"https://github.com/city96/ComfyUI-GGUF"
  	"https://github.com/BuddyMario/ComfyS3"
-    "https://github.com/kijai/ComfyUI-GIMM-VFI"
+    "https://github.com/1038lab/ComfyUI-QwenVL"
+    #"https://github.com/kijai/ComfyUI-GIMM-VFI"
     #"https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler"
  )
 
@@ -290,12 +291,22 @@ provisioning_custom_steps()
     #rclone copy wasabi:minimax-h3-base-v1 /workspace/ComfyUI/models/ --progress --transfers 4 --multi-thread-streams 12 --s3-chunk-size 256M
     hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 
+    hf download "BloodyMario/qwenvl-2b-fp16" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
+   
+
     if [[ -n "${REF_MODEL:-}" ]]; then
         #hf download Comfy-Org/MiniMax-H3 diffusion_models/minimax_h3_ref2va_pruned_fp8_scaled.safetensors --local-dir /workspace/ComfyUI/models --token "$HF_TOKEN"
         hf download "BloodyMario/minimax_H3_ref2va_hybrid" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 	fi
 
 #	hf download "BloodyMario/ConfigFiles" --local-dir "/workspace/ConfigFiles" --repo-type dataset --token "$HF_TOKEN"
+
+    # mkdir -p /workspace/pip_cache
+    # wget -P /workspace/pip_cache/ https://pythonhosted.org
+    # cupy_cuda12x-14.2.0-cp312-cp312-manylinux2014_x86_64.whl
+    # Force pip to check your persistent cache folder first
+    # pip install --find-links=/workspace/pip_cache/ -r /workspace/ComfyUI/custom_nodes/ComfyUI-GIMM-VFI/requirements.txt
+
 
     hf download BloodyMario/SageAttention sageattention-2.2.0+cu130torch2.12.1sm120-cp312-cp312-linux_x86_64.whl --local-dir /workspace --token "$HF_TOKEN"
 	
