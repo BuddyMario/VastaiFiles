@@ -25,6 +25,7 @@ NODES=(
 	"https://github.com/city96/ComfyUI-GGUF"
  	"https://github.com/BuddyMario/ComfyS3"
     "https://github.com/1038lab/ComfyUI-QwenVL"
+    "https://github.com/veighnsche/comfyui_gr85"
     #"https://github.com/kijai/ComfyUI-GIMM-VFI"
     #"https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler"
  )
@@ -308,11 +309,9 @@ provisioning_custom_steps()
     # pip install --find-links=/workspace/pip_cache/ -r /workspace/ComfyUI/custom_nodes/ComfyUI-GIMM-VFI/requirements.txt
 
 
-    hf download BloodyMario/SageAttention sageattention-2.2.0+cu130torch2.12.1sm120-cp312-cp312-linux_x86_64.whl --local-dir /workspace --token "$HF_TOKEN"
-	
-    pip install torch==2.12.0 torchvision==0.27.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cu130
-
-    pip install /workspace/sageattention-2.2.0+cu130torch2.12.1sm120-cp312-cp312-linux_x86_64.whl --no-deps
+    #hf download BloodyMario/SageAttention sageattention-2.2.0+cu130torch2.12.1sm120-cp312-cp312-linux_x86_64.whl --local-dir /workspace --token "$HF_TOKEN"
+    #pip install torch==2.12.0 torchvision==0.27.0 torchaudio==2.11.0 --index-url https://download.pytorch.org/whl/cu130
+    #pip install /workspace/sageattention-2.2.0+cu130torch2.12.1sm120-cp312-cp312-linux_x86_64.whl --no-deps
 
 	
 }
