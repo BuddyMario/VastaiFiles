@@ -26,6 +26,7 @@ NODES=(
  	"https://github.com/BuddyMario/ComfyS3"
     "https://github.com/1038lab/ComfyUI-QwenVL"
     "https://github.com/veighnsche/comfyui_gr85"
+    "https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler"
     #"https://github.com/kijai/ComfyUI-GIMM-VFI"
     #"https://github.com/numz/ComfyUI-SeedVR2_VideoUpscaler"
  )
