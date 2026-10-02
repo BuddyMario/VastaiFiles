@@ -291,7 +291,9 @@ provisioning_custom_steps()
 	#hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
 
     #rclone copy wasabi:minimax-h3-base-v1 /workspace/ComfyUI/models/ --progress --transfers 4 --multi-thread-streams 12 --s3-chunk-size 256M
-    hf download "BloodyMario/minimax_H3_fl2va_fp8_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
+    hf download "BloodyMario/minimax_H3_eros_base" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
+
+    hf download "BloodyMario/h3-loras-v1" --local-dir "/workspace/ComfyUI/models/loras" --repo-type dataset --token "$HF_TOKEN"
 
     hf download "BloodyMario/qwenvl-2b-fp16" --local-dir "/workspace/ComfyUI/models" --repo-type dataset --token "$HF_TOKEN"
    
