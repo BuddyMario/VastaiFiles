@@ -24,6 +24,7 @@ NODES=(
     "https://github.com/rgthree/rgthree-comfy"
 	"https://github.com/city96/ComfyUI-GGUF"
  	"https://github.com/BuddyMario/ComfyS3"
+    "https://github.com/BuddyMario/ComfyUI-MarioNodes"
     "https://github.com/1038lab/ComfyUI-QwenVL"
     "https://github.com/veighnsche/comfyui_gr85"
     "https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler"
@@ -57,6 +58,7 @@ CONTROLNET_MODELS=(
 
 function provisioning_start() {
     provisioning_print_header
+    provisioning_setup_git_auth
 	provisioning_install_cylindria
     provisioning_get_apt_packages
     provisioning_get_pip_packages
@@ -84,10 +86,28 @@ function provisioning_start() {
     provisioning_print_end
 }
 
+# Lets git in this script read private GitHub repos using $GITHUB_TOKEN (set it in
+# Vast.ai, not here). The helper reads the variable when git asks for credentials,
+# so the token is never written to a URL, .git/config or ~/.gitconfig. Public repos
+# don't trigger an auth challenge, so they don't use the token.
+function provisioning_setup_git_auth() {
+    export GIT_TERMINAL_PROMPT=0
+
+    if [[ -z "${GITHUB_TOKEN:-}" ]]; then
+        printf "WARNING: GITHUB_TOKEN is not set, private GitHub repos will fail to clone.\n"
+        return 0
+    fi
+
+    export GITHUB_TOKEN
+    export GIT_CONFIG_COUNT=1
+    export GIT_CONFIG_KEY_0="credential.https://github.com.helper"
+    export GIT_CONFIG_VALUE_0='!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GITHUB_TOKEN"; }; f'
+}
+
 function provisioning_install_cylindria()
 {
 	cd /workspace/
-    git clone https://BuddyMario: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@github.com/BuddyMario/Cylindria.git
+    git clone https://github.com/BuddyMario/Cylindria.git
 	cd /workspace/Cylindria
     cp ./log_conf/cylindria /etc/logrotate.d/
 	sudo chown root:root /etc/logrotate.d/cylindria
@@ -275,7 +295,7 @@ provisioning_custom_steps()
    	touch /workspace/.provisioning_script
 
     cd /workspace/
-    git clone https://BuddyMario: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@github.com/BuddyMario/VastaiFiles.git
+    git clone https://github.com/BuddyMario/VastaiFiles.git
 
     cp /workspace/VastaiFiles/comfyui.sh /opt/supervisor-scripts/
     sudo chmod +x /opt/supervisor-scripts/comfyui.sh
