@@ -37,8 +37,8 @@ while [ -f "/.provisioning" ]; do
 done
 
 export S3_REGION=auto
-export S3_ACCESS_KEY=90e80e3a8f4dbdbf262fd5cba598ea28
-export S3_BUCKET_NAME=chatpic-videos    
+export S3_ACCESS_KEY=d74b690a50bc429802b85db835210142
+export S3_BUCKET_NAME=pistorius
 export S3_ENDPOINT_URL=https://de43a759ac9d300a66733e5cfedcc481.r2.cloudflarestorage.com
 export S3_INPUT_DIR=Images
 export S3_OUTPUT_DIR=Videos
