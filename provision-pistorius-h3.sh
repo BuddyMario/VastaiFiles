@@ -17,7 +17,7 @@ PIP_PACKAGES=(
 
 NODES=(
     #"https://github.com/ltdrdata/ComfyUI-Manager"
-    "https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3"
+    #"https://github.com/xmarre/ComfyUI-Spectrum-MiniMax-H3"
 	"https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite"
  	"https://github.com/kijai/ComfyUI-KJNodes"
   	#"https://github.com/sipherxyz/comfyui-art-venture"
